@@ -1,0 +1,15 @@
+{
+  "name": "vue-template-multiend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/L-Chris/vue-template-multiend",
+  "author": "L-Chris <563303226@qq.com>",
+  "license": "MIT",
+  "dependencies": {
+    "query-string": "^6.1.0",
+    "store": "^2.0.12",
+    "vue": "^2.5.17",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
+  }
+}
