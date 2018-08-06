@@ -1,5 +1,6 @@
+import Bugtags from 'Bugtags'
 import queryString from 'query-string'
-import store from '@/store'
+import store from 'store'
 import {isObject, isString} from '@/utils'
 
 const MILLI_SECONDS_IN_MINUTE = 60000
@@ -56,7 +57,7 @@ class Logger {
     } else if (type === RECORD_TYPE.REQUEST) {
       let {url, params, data, response} = content
       actions.push({ time, content: `request: ${window.location.origin}${url}?${queryString.stringify(params)} data:${JSON.stringify(data)}` })
-      actions.push({ time, content: `response: ${JSON.stringify(response)}`})
+      actions.push({ time, content: `response: ${JSON.stringify(response)}` })
     }
     store.set('logActions', actions)
   }

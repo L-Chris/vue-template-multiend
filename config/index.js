@@ -66,9 +66,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: '',
-    assetsPublicPath: '/resource/parent/1.5/',
-    assetsCDNRoot: 'http://oh1f9ia5p.bkt.clouddn.com/parent-app/',
-    routePublicPath: '/parent/exam/getscorereport',
+    assetsPublicPath: '/resource/admin/',
 
     /**
      * Source Maps

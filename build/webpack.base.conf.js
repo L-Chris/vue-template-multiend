@@ -22,8 +22,8 @@ const createLintingRule = () => ({
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    pc: './src/projects',
-    mt: './src/main.js'
+    pc: './projects/pc/main.js',
+    mt: './projects/mt/main.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -59,7 +59,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('images/[name].[ext]')
+          name: utils.assetsPath('images/[name].[hash:7].[ext]')
         }
       },
       {
@@ -99,5 +99,8 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
+  },
+  externals: {
+    Bugtags: 'window.Bugtags'
   }
 }

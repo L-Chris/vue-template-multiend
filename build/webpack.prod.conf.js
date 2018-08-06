@@ -10,9 +10,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const ImageminPlugin = require('imagemin-webpack-plugin').default
-const imageminMozjpeg = require('imagemin-mozjpeg')
-const QiniuPlugin = require('qn-webpack')
 
 const env = require('../config/prod.env')
 
@@ -28,8 +25,8 @@ const webpackConfig = merge(baseWebpackConfig, {
   output: {
     path: config.build.assetsRoot,
     publicPath: config.build.assetsPublicPath,
-    filename: utils.assetsPath('js/parent.exam.[name].js'),
-    chunkFilename: utils.assetsPath('js/parent.exam.[id].js')
+    filename: utils.assetsPath('js/[name].[chunkhash].js'),
+    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
@@ -49,7 +46,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
     // extract css into its own file
     new ExtractTextPlugin({
-      filename: utils.assetsPath('css/parent.exam.[name].css'),
+      filename: utils.assetsPath('css/[name].[chunkhash].css'),
       // Setting the following option to `false` will not extract CSS from codesplit chunks.
       // Their CSS will instead be inserted dynamically with style-loader when the codesplit chunk has been loaded by webpack.
       // It's currently set to `true` because we are seeing that sourcemaps are included in the codesplit bundle as well when it's `false`, 
@@ -67,17 +64,27 @@ const webpackConfig = merge(baseWebpackConfig, {
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: config.build.index,
-      template: 'index.html',
+      filename: 'pc/index.html',
+      template: './projects/pc/index.html',
+      chunks: ['pc'],
       inject: true,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
         removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
       },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+      chunksSortMode: 'dependency'
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'mt/index.html',
+      template: './projects/mt/index.html',
+      chunks: ['mt'],
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+      },
       chunksSortMode: 'dependency'
     }),
     // keep module.id stable when vendor modules does not change
@@ -121,24 +128,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ]),
-    new ImageminPlugin({
-      disable: process.env.NODE_ENV !== 'production', // Disable during development
-      test: /\.(jpe?g|png|gif|svg)/,
-      pngquant: {
-        quality: '10-80'
-      },
-      optipng: {
-        optimizationLevel: 6
-      },
-      plugins: [
-        imageminMozjpeg({
-          quality: 80,
-          progressive: true
-        })
-      ]
-    })
-    // new QiniuPlugin(config.build.qiniu)
+    ])
   ]
 })
 

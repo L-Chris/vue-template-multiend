@@ -2,10 +2,10 @@ import '@/utils/flexible.js'
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import store from './store'
-import installPlugins from './plugins'
-import installComponents from './components'
-import mixins from './mixins/base'
+import store from '@/store'
+import installPlugins from '@/plugins'
+import installComponents from '@/components'
+import mixins from '@/mixins/base'
 
 Vue.config.productionTip = false
 
