@@ -65,7 +65,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: 'pc/index.html',
-      template: './projects/pc/index.html',
+      template: './projects/pc/index.pug',
       chunks: ['pc'],
       inject: true,
       minify: {
@@ -77,7 +77,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
     new HtmlWebpackPlugin({
       filename: 'mt/index.html',
-      template: './projects/mt/index.html',
+      template: './projects/mt/index.pug',
       chunks: ['mt'],
       inject: true,
       minify: {

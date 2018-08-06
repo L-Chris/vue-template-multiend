@@ -41,7 +41,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       : false,
     publicPath: config.dev.assetsPublicPath,
     proxy: config.dev.proxyTable,
-    quiet: true, // necessary for FriendlyErrorsPlugin
+    quiet: false, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
     }
@@ -56,13 +56,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: 'pc/index.html',
-      template: './projects/pc/index.html',
+      template: './projects/pc/index.pug',
       chunks: ['pc'],
       inject: true
     }),
     new HtmlWebpackPlugin({
       filename: 'mt/index.html',
-      template: './projects/mt/index.html',
+      template: './projects/mt/index.pug',
       chunks: ['mt'],
       inject: true
     }),

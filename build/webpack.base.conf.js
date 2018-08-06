@@ -22,8 +22,8 @@ const createLintingRule = () => ({
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    pc: './projects/pc/main.js',
-    mt: './projects/mt/main.js'
+    pc: './projects/pc/index.js',
+    mt: './projects/mt/index.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -53,6 +53,11 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         include: [resolve('src'), resolve('node_modules/webpack-dev-server/client')]
+      },
+      {
+        test: /\.pug$/,
+        loader: 'pug-loader',
+        include: [resolve('src/layouts'), resolve('projects')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
