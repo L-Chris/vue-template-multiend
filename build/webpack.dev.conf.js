@@ -25,8 +25,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     clientLogLevel: 'warning',
     historyApiFallback: {
       rewrites: [
-        { from: /.*/, to: path.posix.join(config.dev.assetsPublicPath, 'index.html') },
-      ],
+        { from: /\/mt/, to: '/mt.html' },
+        { from: /\/pc/, to: '/pc.html' },
+        { from: /\//, to: '/mt' }
+      ]
     },
     hot: true,
     contentBase: false, // since we use CopyWebpackPlugin.
@@ -53,13 +55,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: 'index.html',
+      filename: 'pc/index.html',
       template: './projects/pc/index.html',
       chunks: ['pc'],
       inject: true
     }),
     new HtmlWebpackPlugin({
-      filename: 'index.html',
+      filename: 'mt/index.html',
       template: './projects/mt/index.html',
       chunks: ['mt'],
       inject: true
