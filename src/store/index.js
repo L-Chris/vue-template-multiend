@@ -4,13 +4,13 @@ import * as types from './mutation-types'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+let baseModule = {
   state: {
     user: {}
   },
   getters: {
     isVip (state) {
-      return state.user.isVip && state.user.vipType === 'is_vip'
+      return state.user.isVip
     }
   },
   mutations: {
@@ -23,4 +23,11 @@ export default new Vuex.Store({
   },
   modules: {},
   strict: process.env.NODE_ENV !== 'production'
-})
+}
+
+export default modules => {
+  for (let key in modules) {
+    if (!baseModule.modules[key]) baseModule.modules[key] = modules[key]
+  }
+  return new Vuex.Store(baseModule)
+}
