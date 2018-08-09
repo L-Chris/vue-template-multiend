@@ -2,6 +2,7 @@
 const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
+const entries = require('./const').entries
 const vueLoaderConfig = require('./vue-loader.conf')
 
 function resolve (dir) {
@@ -21,10 +22,7 @@ const createLintingRule = () => ({
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
-  entry: {
-    pc: './projects/pc/index.js',
-    mt: './projects/mt/index.js'
-  },
+  entry: entries,
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
@@ -52,7 +50,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('node_modules/webpack-dev-server/client')]
+        include: [resolve('src'), resolve('projects')]
       },
       {
         test: /\.pug$/,

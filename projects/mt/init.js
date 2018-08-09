@@ -2,12 +2,11 @@ import Vue from 'vue'
 import App from './App'
 import initBase from '@'
 import router from './router'
-// import initStore from '@/store'
-// import * as storeModules from './store/modules'
-
+import initStore from '@/store'
+import * as storeModules from './store/modules'
 export default () => {
   initBase(Vue)
-  // const store = initStore(storeModules)
+  const store = initStore(storeModules)
 
   Vue.config.productionTip = false
 
@@ -15,7 +14,7 @@ export default () => {
   new Vue({
     el: '#app',
     router,
-    // store,
+    store,
     render: h => h(App)
   })
 }

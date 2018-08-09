@@ -1,5 +1,6 @@
 'use strict'
 const path = require('path')
+const glob = require('glob')
 const config = require('../config')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const packageConfig = require('../package.json')
@@ -120,4 +121,15 @@ exports.createNotifierCallback = () => {
       icon: path.join(__dirname, 'logo.png')
     })
   }
+}
+
+exports.findEntry = _path => {
+  let baseName, tmp, pathName
+
+  return glob.sync(_path).reduce((pre, entry) => {
+    baseName = path.basename(entry, path.extname(entry))
+    pathName = `${entry.split('/').slice(-2, -1)}`
+    pre[pathName] = entry
+    return pre
+  }, Object.create(null))
 }

@@ -9,9 +9,22 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
+const entries = require('./const').entries
+const pages = require('./const').pages
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
+
+const rewrites = Object.entries(entries).reduce((pre, [name]) => {
+  pre.push({
+    from: new RegExp(`\/${name}\/.*$`),
+    to: `/${name}.html`
+  })
+  return pre
+}, [{
+  from: /\//,
+  to: '/mt'
+}])
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -24,11 +37,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   devServer: {
     clientLogLevel: 'warning',
     historyApiFallback: {
-      rewrites: [
-        { from: /\/mt/, to: '/mt.html' },
-        { from: /\/pc/, to: '/pc.html' },
-        { from: /\//, to: '/mt' }
-      ]
+      rewrites
     },
     hot: true,
     contentBase: false, // since we use CopyWebpackPlugin.
@@ -53,19 +62,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
     new webpack.NoEmitOnErrorsPlugin(),
-    // https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: 'pc/index.html',
-      template: './projects/pc/index.pug',
-      chunks: ['pc'],
-      inject: true
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'mt/index.html',
-      template: './projects/mt/index.pug',
-      chunks: ['mt'],
-      inject: true
-    }),
     // copy custom static assets
     new CopyWebpackPlugin([
       {
@@ -76,6 +72,15 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     ])
   ]
 })
+
+for (let name in entries) {
+  let conf = {
+    filename: `${name}/index.html`,
+    template: pages[name],
+    chunks: [name]
+  }
+  devWebpackConfig.plugins.push(new HtmlWebpackPlugin(conf))
+}
 
 module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = process.env.PORT || config.dev.port

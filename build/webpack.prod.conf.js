@@ -10,6 +10,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const entries = require('./const').entries
+const pages = require('./const').pages
 
 const env = require('../config/prod.env')
 
@@ -131,6 +133,23 @@ const webpackConfig = merge(baseWebpackConfig, {
     ])
   ]
 })
+
+for (let name in entries) {
+  const fileName = name.split('/')[0]
+  const conf = {
+    template: `${pages[name] || './src/layouts/index'}.pug`,
+    chunks: [name, 'vendor'],
+    inject: true,
+    minify: {
+      removeComments: true,
+      collapseWhitespace: true,
+      removeAttributeQuotes: true
+    },
+    chunksSortMode: 'dependency'
+  }
+
+  webpackConfig.plugins.push(new HtmlWebpackPlugin(conf))
+}
 
 if (config.build.productionGzip) {
   const CompressionWebpackPlugin = require('compression-webpack-plugin')
